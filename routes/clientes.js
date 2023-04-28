@@ -1,5 +1,6 @@
 const Cliente = require("../database/cliente");
 const Endereco = require("../database/endereco");
+const Pet = require("../database/pet");
 
 const { Router } = require("express");
 
@@ -11,6 +12,12 @@ router.get("/clientes", async (req, res) => {
   // SELECT * FROM clientes;
   const listaClientes = await Cliente.findAll();
   res.json(listaClientes);
+});
+
+// [BE-6] Criar recurso GET para listar os pets dos Clientes #6
+router.get('/clientes/:id/pets', async (req, res) => {
+  const pets = await Pet.findAll({ where: { clienteId: req.params.id } });
+  res.json(pets);
 });
 
 // /clientes/1, 2
