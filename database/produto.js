@@ -54,4 +54,6 @@ const Produto = connection.define("produto", {
   }
 });
 
+
+
 module.exports = Produto;
