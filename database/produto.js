@@ -49,7 +49,9 @@ const Produto = connection.define("produto", {
     // categoria STRING UNIQUE NOT NULL
     type: DataTypes.STRING,
     allowNull: false,
-    values: ["Higiene", "Brinquedos", "Conforto", "Alimentação", "Medicamentos"],
+    validate: {
+      isIn: [["Higiene", "Brinquedos", "Conforto", "Alimentação", "Medicamentos"]]
+    },
     require: true,
   }
 });
