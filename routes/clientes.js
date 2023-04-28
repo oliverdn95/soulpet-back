@@ -20,6 +20,13 @@ router.get('/clientes/:id/pets', async (req, res) => {
   res.json(pets);
 });
 
+// [BE-7] Criar recurso GET para mostrar apenas o Endereço dos Clientes #7
+router.get('/clientes/enderecos', async (req, res) => {
+  const enderecos = await Endereco.findAll();
+  res.json(enderecos);
+});
+
+
 // /clientes/1, 2
 router.get("/clientes/:id", async (req, res) => {
   // SELECT * FROM clientes WHERE id = 1;
