@@ -23,14 +23,14 @@ const Produto = connection.define("produto", {
 
   preco: {
     // preco NUMBER UNIQUE NOT NULL
-    type: DataTypes.NUMBER,
+    type: DataTypes.FLOAT,
     allowNull: false,
     require: true,
   },
 
   desconto: {
     // desconto NUMBER UNIQUE NOT NULL
-    type: DataTypes.NUMBER,
+    type: DataTypes.FLOAT,
     allowNull: false,
     require: true,
     validate:{
