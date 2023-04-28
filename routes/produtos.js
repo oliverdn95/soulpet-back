@@ -35,4 +35,35 @@ router.get('/produtos/:id', async (req, res) => {
   }
 });
 
+router.post("/produtos", async (req, res) => {
+  const { nome, descricao, preco, desconto, dataDesconto, categoria } = req.body;
+  // Atualizar conforme o modelo de validação da categoria de Produto
+  const categorias = ["Higiene", "Brinquedos", "Conforto", "Alimentação", "Medicamentos"]
+
+  try {
+    if ((dataDesconto)|| (desconto) || (categoria)){
+
+      if(desconto < 0 || desconto > 100){
+        return res.status(400).json( { message: "Por favor, digite uma porcentagem de desconto válida."});
+      }
+      
+      if(!categorias.includes(categoria)){
+        return res.status(400).json({ message: "Categoria inválida." });
+      }
+
+      if(new Date() >= new Date(dataDesconto)){
+        return res.status(400).json({ message: "Desconto vencido." });
+      }
+      
+      const novoProduto = await Produto.create({ nome, descricao, preco, desconto, dataDesconto, categoria });
+      res.status(201).json(novoProduto);
+    }
+    
+  } catch (err) {
+  console.log(err);
+  res.status(500).json({ message: "Um erro aconteceu." });
+  }
+});
+
+
 module.exports = router;
