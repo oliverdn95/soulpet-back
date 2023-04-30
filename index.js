@@ -20,7 +20,7 @@ authenticate(connection); // efetivar a conexão
 const rotasClientes = require("./routes/clientes");
 const rotasPets = require("./routes/pets");
 const rotasProdutos = require("./routes/produtos");
-const rotasDelProdutos =require ("./routes/remove-produtos")
+const rotasDelProdutos = require("./routes/produtos");
 
 // Juntar ao app as rotas dos arquivos
 app.use(rotasClientes); // Configurar o grupo de rotas no app
