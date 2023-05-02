@@ -61,4 +61,73 @@ router.post("/servicos", async (req, res) => {
     }
   });
 
+  // [BE-12] Criar recurso PUT para atualização de Serviços#12
+router.put("/servicos/:id", async (req, res) => {
+    const { nome, preco } = req.body;
+    const { id } = req.params;
+        
+    try {
+      // Verifica se o serviço existe
+      const servico = await Servico.findByPk(id);
+  
+      if (!servico) {
+        return res.status(404).json({ erro: "Serviço não encontrado" });
+      }
+  
+      // Valida os dados do serviço
+      if (
+        !nome ||
+        !preco
+      ) {
+        return res.status(400).json({ erro: "Dados incompletos" });
+      }
+  
+      // Atualiza o serviço
+      await servico.update({
+        nome,
+        preco,
+      });
+  
+      return res.status(200).json(servico);
+      } catch (err) {
+      console.log(err);
+      return res.status(500).json({ erro: "Erro ao atualizar serviço" });
+    }
+  });
+
+  // [BE-12] Criar recurso PUT para atualização de Serviços#12
+router.put("/servicos/:id", async (req, res) => {
+    const { nome, preco } = req.body;
+    const { id } = req.params;
+        
+    try {
+      // Verifica se o serviço existe
+      const servico = await Servico.findByPk(id);
+  
+      if (!servico) {
+        return res.status(404).json({ erro: "Serviço não encontrado" });
+      }
+  
+      // Valida os dados do serviço
+      if (
+        !nome ||
+        !preco
+      ) {
+        return res.status(400).json({ erro: "Dados incompletos" });
+      }
+  
+      // Atualiza o serviço
+      await servico.update({
+        nome,
+        preco,
+      });
+  
+      return res.status(200).json(servico);
+      } catch (err) {
+      console.log(err);
+      return res.status(500).json({ erro: "Erro ao atualizar serviço" });
+    }
+  });
+
+
 module.exports = router;
