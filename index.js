@@ -28,6 +28,7 @@ app.use(rotasPets);
 app.use(rotasProdutos);
 app.use(rotasServicos);
 
+
 // Escuta de eventos (listen)
 app.listen(3001, () => {
   // Gerar as tabelas a partir do model
