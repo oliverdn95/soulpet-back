@@ -10,24 +10,24 @@ router.post("/agendamentos", async (req, res) => {
 
     try {
         const pet = await Pet.findByPk(petId)
-        if (pet){
+        if (pet) {
             const servico = await Servico.findByPk(servicoId);
             if (servico) {
                 const novoAgendamento = await Agendamentos.create({ dataAgendada, realizada, petId, servicoId });
                 res.status(201).json(novoAgendamento);
-            } else{
-                res.status(404).json( { message: "Serviço não encontrado."});
+            } else {
+                res.status(404).json({ message: "Serviço não encontrado." });
             }
-            
+
         } else {
-            res.status(404).json( { message: "Pet não encontrado."});
+            res.status(404).json({ message: "Pet não encontrado." });
         }
-        
+
     } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Um erro aconteceu." });
+        console.log(err);
+        res.status(500).json({ message: "Um erro aconteceu." });
     }
-    });
+});
 
 
 router.put("/agendamentos/:id", async (req, res) => {
@@ -37,16 +37,34 @@ router.put("/agendamentos/:id", async (req, res) => {
     try {
         if (agendamento) {
             await Agendamentos.update(
-            { dataAgendada, realizada, petId, servicoId },
-            { where: { id: req.params.id } }
-        );
-        res.json({ message: "Agendamento editado com sucesso!" });
+                { dataAgendada, realizada, petId, servicoId },
+                { where: { id: req.params.id } }
+            );
+            res.json({ message: "Agendamento editado com sucesso!" });
+        } else {
+            res.status(404).json({ message: "Agendamento não encontrado." });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Um erro aconteceu." });
+    }
+});
+
+// [BE-14] Criar recurso GET para listagem de Agendamentos#14
+
+router.get("/agendamentos", async (req, res) => {
+    const listaAgendamentos = await Agendamentos.findAll();
+    res.json(listaAgendamentos);
+});
+
+router.get("/agendamentos/:id", async (req, res) => {
+    const { id } = req.params;
+
+    const agendamento = await Agendamentos.findByPk(id);
+    if (agendamento) {
+        res.json(agendamento);
     } else {
         res.status(404).json({ message: "Agendamento não encontrado." });
-    }
-    } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Um erro aconteceu." });
     }
 });
 
