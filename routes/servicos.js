@@ -29,38 +29,38 @@ router.post("/servicos", async (req, res) => {
 
     // Atualizar conforme o modelo de validação da categoria de Servicos
     try {
-        if( nome && preco && nome !== "" && preco > 0 ){
+        if (nome && preco && nome !== "" && preco > 0) {
             const novoServico = await Servico.create({
                 nome,
                 preco
-              });
+            });
             res.status(201).json(novoServico);
-        } else if( preco ){
-            if (preco <= 0 ){
+        } else if (preco) {
+            if (preco <= 0) {
                 return res.status(400).json({
                     message: "Por favor, digite um preco válido.",
-                  });
-            }else{
+                });
+            } else {
                 return res.status(400).json({
                     message: "Por favor, digite um nome válido.",
                 });
             }
-        } else if( nome ){
-            if (nome === "" ){
+        } else if (nome) {
+            if (nome === "") {
                 return res.status(400).json({
                     message: "Por favor, digite um nome válido.",
-                  });
-            }else{
+                });
+            } else {
                 return res.status(400).json({
                     message: "Por favor, digite um preco válido.",
                 });
             }
         }
     } catch (err) {
-      console.log(err);
-      res.status(500).json({ message: "Um erro aconteceu." });
+        console.log(err);
+        res.status(500).json({ message: "Um erro aconteceu." });
     }
-  });
+});
 
   // [BE-12] Criar recurso PUT para atualização de Serviços#12
 router.put("/servicos/:id", async (req, res) => {
