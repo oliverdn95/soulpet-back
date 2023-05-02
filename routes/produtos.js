@@ -15,7 +15,7 @@ router.post("/produtos", async (req, res) => {
     "Higiene",
     "Brinquedos",
     "Conforto",
-    "Alimentação",
+    "Alimentacao",
     "Medicamentos",
   ];
 
@@ -120,7 +120,7 @@ router.put("/produtos/:id", async (req, res) => {
       categoria !== "Higiene" &&
       categoria !== "Brinquedos" &&
       categoria !== "Conforto" &&
-      categoria !== "Alimentação" &&
+      categoria !== "Alimentacao" &&
       categoria !== "Medicamentos"
     ) {
       return res.status(400).json({ erro: "Categoria inválida" });
@@ -130,8 +130,8 @@ router.put("/produtos/:id", async (req, res) => {
 
     if (isNaN(descontoFloat) || descontoFloat < 0 || descontoFloat > 100) {
       return res.status(400).json({ erro: "Desconto inválido" });
-    }
-
+      }
+      
     const dataDescontoDate = new Date(dataDesconto);
 
     if (isNaN(dataDescontoDate.getTime()) || dataDescontoDate <= new Date()) {
@@ -149,7 +149,7 @@ router.put("/produtos/:id", async (req, res) => {
     });
 
     return res.status(200).json(produto);
-  } catch (err) {
+    } catch (err) {
     console.log(err);
     return res.status(500).json({ erro: "Erro ao atualizar produto" });
   }
