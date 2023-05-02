@@ -2,6 +2,7 @@
 
 const { Router } = require("express");
 const Servico = require("../database/servico");
+const { NUMBER } = require("sequelize");
 
 const router = Router();
 
@@ -128,6 +129,38 @@ router.put("/servicos/:id", async (req, res) => {
       return res.status(500).json({ erro: "Erro ao atualizar serviço" });
     }
   });
+
+  // Rota DELETE que exclui todos os serviços
+router.delete("/servicos/all", async (req, res) => {
+  try {
+    await Servico.destroy({ where: {} });
+    res.send("Todos os serviços foram removidos com sucesso!");
+  } catch(err){
+    console.error(err);
+    res.status(500).send("Erro ao remover todos os serviços!");
+  }
+})
+
+  //Delete
+// Rota DELETE que remove um serviço de acordo com sua ID
+router.delete("/servicos/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const servico = await Servico.findByPk(id);
+    if (!servico) {
+      return res.status(404).send("Serviço não encontrado!");
+    }
+    await servico.destroy();
+    res.send("Serviço removido com sucesso!");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Erro ao remover o serviço!");
+  }
+});
+
+
+
+
 
 
 module.exports = router;
