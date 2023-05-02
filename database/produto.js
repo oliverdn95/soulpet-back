@@ -50,7 +50,7 @@ const Produto = connection.define("produto", {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      isIn: [["Higiene", "Brinquedos", "Conforto", "Alimentação", "Medicamentos"]]
+      isIn: [["Higiene", "Brinquedos", "Conforto", "Alimentacao", "Medicamentos"]]
     },
     require: true,
   }
