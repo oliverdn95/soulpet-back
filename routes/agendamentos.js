@@ -29,4 +29,25 @@ router.post("/agendamentos", async (req, res) => {
     }
     });
 
+
+router.put("/agendamentos/:id", async (req, res) => {
+    const { dataAgendada, realizada, petId, servicoId } = req.body;
+    const agendamento = await Agendamentos.findByPk(req.params.id);
+
+    try {
+        if (agendamento) {
+            await Agendamentos.update(
+            { dataAgendada, realizada, petId, servicoId },
+            { where: { id: req.params.id } }
+        );
+        res.json({ message: "Agendamento editado com sucesso!" });
+    } else {
+        res.status(404).json({ message: "Agendamento não encontrado." });
+    }
+    } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Um erro aconteceu." });
+    }
+});
+
 module.exports = router;
