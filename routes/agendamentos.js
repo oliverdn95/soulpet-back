@@ -68,4 +68,32 @@ router.get("/agendamentos/:id", async (req, res) => {
     }
 });
 
+// Rota DELETE que exclui todos os agendamentos
+router.delete("/agendamentos/all", async (req, res) => {
+  try {
+    await Agendamentos.destroy({ where: {} });
+    res.status(200).json({message: "Todos os agendamentos foram removidos com sucesso!"});
+  } catch(err){
+    console.error(err);
+    res.status(500).json({message: "Erro ao remover todos os agendamentos!"});
+  }
+})
+
+  //Delete
+// Rota DELETE que remove um agendamento de acordo com sua ID
+router.delete("/agendamentos/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const agendamento = await Agendamentos.findByPk(id);
+    if (!agendamento) {
+      return res.status(404).json({message:"Agendamento não encontrado!"});
+    }
+    await agendamento.destroy();
+    res.status(200).json({message: "Agendamento removido com sucesso!"});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({message: "Erro ao remover o agendamento!"});
+  }
+});
+
 module.exports = router;

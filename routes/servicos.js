@@ -134,10 +134,10 @@ router.put("/servicos/:id", async (req, res) => {
 router.delete("/servicos/all", async (req, res) => {
   try {
     await Servico.destroy({ where: {} });
-    res.send("Todos os serviços foram removidos com sucesso!");
+    res.status(200).json({message:"Todos os serviços foram removidos com sucesso!"});
   } catch(err){
     console.error(err);
-    res.status(500).send("Erro ao remover todos os serviços!");
+    res.status(500).json({message: "Erro ao remover todos os serviços!"});
   }
 })
 
@@ -148,13 +148,13 @@ router.delete("/servicos/:id", async (req, res) => {
   try {
     const servico = await Servico.findByPk(id);
     if (!servico) {
-      return res.status(404).send("Serviço não encontrado!");
+      res.status(404).json({message: "Serviço não encontrado!"});
     }
     await servico.destroy();
-    res.send("Serviço removido com sucesso!");
+    res.status(200).json({message: "Serviço removido com sucesso!"});
   } catch (err) {
     console.error(err);
-    res.status(500).send("Erro ao remover o serviço!");
+    res.status(500).json({message: "Erro ao remover o serviço!"});
   }
 });
 
