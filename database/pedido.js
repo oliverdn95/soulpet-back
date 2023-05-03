@@ -12,27 +12,25 @@ const Pedido = connection.define("pedido", {
   codigo: {
     // codigo NOT NULL
     type: DataTypes.UUID,
-    defaultValue: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
 
   quantidade: {
-    // quantidade NUMBER UNIQUE NOT NULL
-    type: DataTypes.NUMBER,
-    allowNull: false,
-    require: true,
-  },
+    // quantidade INTEGER UNIQUE NOT NULL
+    type: DataTypes.INTEGER,
+    defaultValue: 1
+  }
 });
 
 // Relacionamento 1:N (Um cliente pode ter N pedidos)
-Cliente.hasMany(Pedido,{ foreignKey: "codigo"});
+Cliente.hasMany(Pedido, { foreignKey: "clienteId" });
 // Um pedido pertece a um cliente
 Pedido.belongsTo(Cliente);
 
 // Relacionamento 1:N (Um pedido pode ter N produtos)
-Pedido.hasMany(Produto); //TODO {type: Produto.UUID}
-// Um produto pertece a um pedido
-Produto.belongsTo(Pedido);
+Produto.hasMany(Pedido, { foreignKey: "produtoId" }); 
+Pedido.belongsTo(Produto, { foreignKey: "produtoId" });
 
 
 module.exports = Pedido;

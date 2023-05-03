@@ -11,28 +11,24 @@ const Produto = connection.define("produto", {
     // nome VARCHAR NOT NULL
     type: DataTypes.STRING,
     allowNull: false, // NOT NULL
-    require: true,
   },
   
   descricao: {
     // descricao VARCHAR NOT NULL
     type: DataTypes.STRING(150),
     allowNull: false,
-    require: true,
   },
 
   preco: {
     // preco NUMBER UNIQUE NOT NULL
     type: DataTypes.FLOAT,
     allowNull: false,
-    require: true,
   },
 
   desconto: {
     // desconto NUMBER UNIQUE NOT NULL
     type: DataTypes.FLOAT,
     allowNull: false,
-    require: true,
     validate:{
       max: 100,
       min:0,
@@ -42,7 +38,6 @@ const Produto = connection.define("produto", {
     // dataDesconto Date UNIQUE NOT NULL
     type: DataTypes.DATE,
     allowNull: false,
-    require: true,
   },
 
   categoria: {
@@ -52,7 +47,6 @@ const Produto = connection.define("produto", {
     validate: {
       isIn: [["Higiene", "Brinquedos", "Conforto", "Alimentacao", "Medicamentos"]]
     },
-    require: true,
   }
 });
 
