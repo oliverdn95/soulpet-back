@@ -9,6 +9,43 @@ const Cliente = require("../database/cliente");
 // Criar o grupo de rotas (/pedidos)
 const router = Router();
 
+// Definição de rotas
+// [BE-19] Criar recurso GET para listagem de Pedidos #19
+router.get("/pedidos", async (req, res) => {
+  // SELECT * FROM pedidos;
+  const listaPedidos = await Pedido.findAll({ include: [Cliente, Produto] });
+  res.json(listaPedidos);
+});
+
+router.get("/pedidos/:codigo", async (req, res) => {
+    // SELECT * FROM pedidos WHERE id = :id;
+    const pedido = await Pedido.findOne({
+      where: { codigo: req.params.codigo },
+      include: [Cliente, Produto ] // trás junto os dados de produto // trás junto os dados do cliente 
+    });
+    res.json(pedido);
+});
+
+// Esta rota deve mostrar os dados do pedido de acordo com o "id do produto" fornecido. 
+// O pedido retornado deve incluir os valores do cliente relacionado.
+router.get('/pedidos/produtos/:id', async (req, res) => {
+    const pedido = await Pedido.findAll({ 
+        where: { produtoId: req.params.id },
+        include: [ Cliente, Produto ]
+    });
+    res.json(pedido);
+  });
+
+// Esta rota deve mostrar os dados do pedido de acordo com o id do cliente fornecido. 
+// O pedido retornado deve incluir os valores do produto relacionado.
+router.get('/pedidos/clientes/:id', async (req, res) => {
+  const pedido = await Pedido.findAll({ 
+      where: { clienteId: req.params.id },
+      include: [ Cliente, Produto ]
+  });
+  res.json(pedido);
+});
+
 // [BE-20] Criar recurso POST para inserção de Pedidos #20
   router.post("/pedidos", async (req, res) => {
     // Coletar os dados do req.body
