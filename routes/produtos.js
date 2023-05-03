@@ -156,6 +156,18 @@ router.put("/produtos/:id", async (req, res) => {
 });
 
 //Delete
+
+// Rota DELETE que exclui todos os produtos
+router.delete("/produtos/all", async (req, res) => {
+  try {
+    await Produto.destroy({ where: {} });
+    res.status(200).json({message: "Todos os produtos foram removidos com sucesso!"});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({message: "Erro ao remover todos os produtos!"});
+  }
+});
+
 // Rota DELETE que remove um produto de acordo com sua ID
 router.delete("/produtos/:id", async (req, res) => {
   const id = req.params.id;
@@ -172,15 +184,5 @@ router.delete("/produtos/:id", async (req, res) => {
   }
 });
 
-// Rota DELETE que exclui todos os produtos
-router.delete("/produtos", async (req, res) => {
-  try {
-    await Produto.destroy({ where: {} });
-    res.status(200).json({message: "Todos os produtos foram removidos com sucesso!"});
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({message: "Erro ao remover todos os produtos!"});
-  }
-});
 
 module.exports = router;
