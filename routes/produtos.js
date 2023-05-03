@@ -162,13 +162,13 @@ router.delete("/produtos/:id", async (req, res) => {
   try {
     const produto = await Produto.findByPk(id);
     if (!produto) {
-      return res.status(404).send("Produto não encontrado!");
+      return res.status(404).json({message: "Produto não encontrado!"});
     }
     await produto.destroy();
-    res.send("Produto removido com sucesso!");
+    res.status(200).json({message: "Produto removido com sucesso!"});
   } catch (err) {
     console.error(err);
-    res.status(500).send("Erro ao remover o produto!");
+    res.status(500).json({message: "Erro ao remover o produto!"});
   }
 });
 
@@ -176,10 +176,10 @@ router.delete("/produtos/:id", async (req, res) => {
 router.delete("/produtos", async (req, res) => {
   try {
     await Produto.destroy({ where: {} });
-    res.send("Todos os produtos foram removidos com sucesso!");
+    res.status(200).json({message: "Todos os produtos foram removidos com sucesso!"});
   } catch (err) {
     console.error(err);
-    res.status(500).send("Erro ao remover todos os produtos!");
+    res.status(500).json({message: "Erro ao remover todos os produtos!"});
   }
 });
 
