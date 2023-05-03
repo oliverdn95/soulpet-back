@@ -99,12 +99,11 @@ router.get('/pedidos/clientes/:id', async (req, res) => {
       const cliente = await Cliente.findByPk(clienteId);
 
       // Verifica se todos existem
-      if (cliente && produtoExiste.length > 0 && demandaExiste.length > 0 ){
+      if (cliente && produtoExiste.includes(true) && demandaExiste.includes(true) ){
 
         
         // Agora atualiza todos os produtos para receber o código do pedido
         for (let i = 0; i < idProduto.length; i++) {
-          const e = idProduto[i];
 
           // Verifica se aquele produto existir e a demanda também aí cria o pedido
           if( produtoExiste[i] === true && demandaExiste[i] === true ){
