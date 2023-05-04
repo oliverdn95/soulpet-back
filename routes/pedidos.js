@@ -50,7 +50,7 @@ router.get('/pedidos/clientes/:id', async (req, res) => {
   router.post("/pedidos", async (req, res) => {
     // Coletar os dados do req.body
     const { quantidade, clienteId, idProdutos } = req.body;
-    // Quantidade de produtos, id do cliente, array de id de produtos
+    // Array de Quantidade de produtos, id do cliente, array de id de produtos
 
     // Transformando o id produtos e a quantidade de demanda em array caso ele não seja
     // Criando o array de pedidos
@@ -127,5 +127,71 @@ router.get('/pedidos/clientes/:id', async (req, res) => {
       res.status(500).json({ message: "Um erro aconteceu." });
     }
   });
+
+  // Rota PUT para atualizar um pedido
+  // [BE-21] Criar recurso PUT para atualização de Pedidos #21
+  router.put("/pedidos/:codigo", async (req, res) => {
+  // obter dados do corpo da requisição
+  const { quantidade, clienteId, produtoId } = req.body;
+  // obter codigo do pedido pelos parametros da rota
+  const { codigo } = req.params;
+
+    // Verifica se existem e se produtos e quantidade são válidos
+    const produtoExiste = [];
+    const quantidadeExiste = [];
+
+    try {
+
+      // Verifica se há valores em todas as variáveis necessárias
+      if( quantidade && clienteId && produtoId && codigo ){
+
+        // Tenta encontrar os produtos pelo código e se ele existir 
+        // adiciona um true pro produto existente e para a demanda
+        const produto = await Produto.findByPk(produtoId);
+        if(produto && quantidade > 0 ){
+          produtoExiste.push(true);
+          quantidadeExiste.push(true);
+        } else {
+          produtoExiste.push(false);
+          quantidadeExiste.push(false);
+        }
+      } else return res.status(400).json({ message: "Requisição inválida." });
+      // Tenta encontrar Cliente
+      const cliente = await Cliente.findByPk(clienteId);
+
+      // Verifica se todos existem
+      if (cliente && produtoExiste.includes(true) && quantidadeExiste.includes(true) ){
+
+          // Verifica se aquele produto existir e a quantidade também 
+          // logo depois edita o pedido
+          if( produtoExiste[0] === true && quantidadeExiste[0] === true ){
+            // buscar pedido pelo codigo passado
+            const pedido = await Pedido.findOne({ where: { codigo } });
+
+            if (pedido){
+              // atualizar o pedido
+              await pedido.update(
+                { quantidade, clienteId, produtoId },
+                { include: [Cliente, Produto] }
+              );
+              res.status(200).json({ message: "Pedido editado." });
+
+            } else return res.status(404).json({ message: "Pedido não encontrado." });
+            
+          }
+        
+      } else {
+        if(!cliente){
+          return res.status(404).json({ message: "Cliente não encontrado." });
+        } else if (produtoExiste.includes(false)){
+          return res.status(404).json({ message: "Produto não encontrado." });
+        }
+      }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Um erro aconteceu." });
+  }
+});
 
 module.exports = router;
