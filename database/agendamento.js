@@ -5,7 +5,7 @@ const Servico = require("./servico");
 
 const Agendamentos = connection.define("agendamento", {
   dataAgendada: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
   },
   realizada: {

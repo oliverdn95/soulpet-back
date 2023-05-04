@@ -36,7 +36,7 @@ const Produto = connection.define("produto", {
 
   dataDesconto: {
     // dataDesconto Date UNIQUE NOT NULL
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
   },
 
