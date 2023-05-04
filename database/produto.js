@@ -35,7 +35,8 @@ const Produto = connection.define("produto", {
     }},
 
   dataDesconto: {
-    // dataDesconto Date UNIQUE NOT NULL
+
+    // dataDesconto DATEONLY UNIQUE NOT NULL
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
